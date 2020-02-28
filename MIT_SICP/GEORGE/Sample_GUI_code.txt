@@ -1,0 +1,23 @@
+#lang racket
+(require racket/gui/base)
+
+
+;========================= Picture ==============================
+; MAKING FRAME WINDOW, CANVAS, and DC
+(define frame (new frame% [label "Paint George"]
+                   [width 747]
+                   [height 769]))
+(define canvas (new canvas% [parent frame]
+                    [paint-callback
+                     (lambda(cnavas dc)
+                       (send dc set-pen red-pen)
+                       (send dc set-brush no-brush)
+                       (on-paint))]))
+(define red-pen (make-object pen% "RED" 2 'solid))
+(define no-brush (make-object brush% "BLACK" 'transparent))
+(define dc (send canvas get-dc))
+; DEFINE CALLBACK PAINT PROCEDURE
+;(define (on-paint) (george-mix frame1))
+(define (on-paint)  (send dc draw-line 1 1 700 700))
+;MAKING THE FRAME VISIBLE
+(send frame show #t)
